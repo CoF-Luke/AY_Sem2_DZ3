@@ -34,7 +34,7 @@ vector<string> read_from_files(string file_info, string file_key)
     }
     bin2.close();*/
 
-    ifstream bin2(file_info, ios::binary);
+    ifstream bin2(file_key, ios::binary);
 
     bin2.seekg(0, ios::end);
     file_size = bin2.tellg();

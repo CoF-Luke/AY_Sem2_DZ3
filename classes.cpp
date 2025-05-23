@@ -44,16 +44,16 @@ void Block_Encryptor::encript() //Функция кодировки
     string result = "";
     for (size_t i = 0; i < (len_info / len_key); ++i) //Блоки по длине ключа
     {
-        for(size_t j = (i * len_key); j < ((i + 1) * len_key); ++j) //Проход внутри блока
+        for(size_t j = (i * len_key), k = 0; j < ((i + 1) * len_key); ++j, ++k) //Проход внутри блока
         {
-            result += (char)(info[j] ^ key[j]);
+            result += (char)(info[j] ^ key[k]);
         }
 
         shift_to_right(); //Сдвиг ключа вправо
     }
-    for(size_t j = ((len_info / len_key) * len_key); j < len_info; ++j) //Проход по остатку от блоков справа
+    for(size_t j = ((len_info / len_key) * len_key), k = 0; j < len_info; ++j, ++k) //Проход по остатку от блоков справа
     {
-        result += (char)(info[j] ^ key[j]);
+        result += (char)(info[j] ^ key[k]);
     }
 
     info = result;
