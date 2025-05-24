@@ -3,21 +3,36 @@
 
 int main(int argc, const char * argv[])
 {
-    if (argc != 4)
+    try
     {
-        cout << "ERROR! Incorrect number of arguments..." << endl;
-        return 1;
+        if (argc != 4) throw invalid_argument("ERROR! Incorrect number of arguments...");
     }
+    catch(const std::invalid_argument& e)
+    {
+        cerr << e.what() << endl;
+        return 0;
+    }
+
     string type_encr = argv[1];
     string file_info = argv[2];
     string file_key = argv[3];
 
     Encryptor * encr;
 
-    if (type_encr == "block") encr_block(file_info, file_key, encr);
-    else if (type_encr == "stream") encr_stream(file_info, file_key, encr);
-    else cout << "ERROR! Incorrtct encryption type..." << endl << type_encr << endl;
+    try
+    {
+        if (type_encr == "block") encr_block(file_info, file_key, encr);
+        else if (type_encr == "stream") encr_stream(file_info, file_key, encr);
+        else throw invalid_argument("ERROR! Incorrect encryption type...");
+    }
+    catch(const std::invalid_argument& e)
+    {
+        cerr << e.what() << endl;
+        delete encr;
+        return 0;
+    }
 
-
+    delete encr;
+    
     return 0;
 }

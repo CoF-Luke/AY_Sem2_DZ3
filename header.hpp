@@ -5,6 +5,7 @@
 #include<fstream>
 #include<string>
 #include<vector>
+#include<exception>
 
 #include "classes.hpp"
 

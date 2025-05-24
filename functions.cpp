@@ -4,21 +4,19 @@
 vector<string> read_from_files(string file_info, string file_key)
 {
     vector<string> data(2);
-    /*char sign;
 
-    ifstream bin(file_info);
-    while (bin.peek() != EOF)
-    {
-        bin.read((char*)&sign, sizeof(sign));
-        data[0] += sign;
-    }
-    bin.close();*/
+    //Открытие info файла
     ifstream bin(file_info, ios::binary);
+
+    if (!bin) throw invalid_argument("Error: File dont exist...");
 
     bin.seekg(0, ios::end);
     streampos file_size = bin.tellg();
     bin.seekg(0, ios::beg);
     
+    if (file_size == 0) throw invalid_argument("Error: File is empty...");
+    if (file_size > 1024) throw invalid_argument("Error: The file size is more than 1024...");
+
     data[0].resize(file_size);
 
     bin.read(&data[0][0], file_size);
@@ -26,20 +24,19 @@ vector<string> read_from_files(string file_info, string file_key)
     bin.close();
 
     cout << data[0] << endl;
-    /*ifstream bin2(file_key);
-    while (bin2.peek() != EOF)
-    {
-        bin2.read((char*)&sign, sizeof(sign));
-        data[1] += sign;
-    }
-    bin2.close();*/
 
+    //Открытие key файла
     ifstream bin2(file_key, ios::binary);
+
+    if (!bin2) throw invalid_argument("Error: File dont exist...");
 
     bin2.seekg(0, ios::end);
     file_size = bin2.tellg();
     bin2.seekg(0, ios::beg);
     
+    if (file_size == 0) throw invalid_argument("Error: File is empty...");
+    if (file_size > 1024) throw invalid_argument("Error: The file size is more than 1024...");
+
     data[1].resize(file_size);
 
     bin2.read(&data[1][0], file_size);
@@ -61,15 +58,10 @@ void write_to_file(string file_info, string info)
     cout << info << endl;
     ofstream bout(file_info, ios::binary);
     
-    //bout.write(info.data(), info.size());
     bout << info;
 
     bout.close();
-    /*for (size_t i = 0; i < info.length(); ++i)
-    {
-        bout.write((char*)&info[i], sizeof(info[i]));
-    }
-    bout.close();*/
+
 }
 
 void encr_block(string file_info, string file_key, Encryptor * encr)
